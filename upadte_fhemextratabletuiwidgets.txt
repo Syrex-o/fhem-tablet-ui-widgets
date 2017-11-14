@@ -1,0 +1,5 @@
+DIR www/tablet
+DIR www/tablet/lib
+DIR www/tablet/js
+
+UPD
