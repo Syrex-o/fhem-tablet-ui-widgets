@@ -1,3 +1,5 @@
 DIR www/tablet
 DIR www/tablet/lib
 DIR www/tablet/js
+UPD www/tablet/lib/pinpad.css
+UPD www/tablet/js/widget_pinpad.js
