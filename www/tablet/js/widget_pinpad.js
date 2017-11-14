@@ -1,5 +1,5 @@
 /* FTUI Plugin
-
+	Pinpad Widget
 */
 
 function depends_pinpad(){
