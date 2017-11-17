@@ -1,5 +1,5 @@
 /* FTUI Plugin
-	Pinpad Widget
+
 */
 
 function depends_pinpad(){
@@ -69,7 +69,7 @@ var Modul_pinpad = function(){
 				});
 
 				// creating dots in pinpad
-				for(var j= 0; j < 4; j++){
+				for(var j= 0; j < elem.getReading("get-pin").val.length; j++){
 					var dots = $("<div></div>");
 					dots.attr("id", "dot" + j);
 					dots.attr("class", "dots-pinpad");
@@ -85,8 +85,8 @@ var Modul_pinpad = function(){
             elem.initData('device', ' ');
             elem.initData('get-pin', 'pin');
             elem.initData("get", "state");
-            elem.initData("width", "300px");
-            elem.initData("height", "450px");
+            elem.data("width", "300px");
+            elem.data("height", "450px");
             elem.data("icon", "fa-key");
             elem.data("set", "");
 
@@ -150,39 +150,29 @@ var Modul_pinpad = function(){
 				}, 1000);
 			}
 
+			if (elem.getReading("get-pin").val.length === 5){
+				$(".dots-pinpad").css({
+					"left": "12%"
+				});
+			}
+			else if (elem.getReading("get-pin").val.length === 6){
+				$(".dots-pinpad").css({
+					"left": "5%"
+				});
+			}
+
             //pinpad click events
             var counter = 0;
-			$(".number-pinpad").on("click", function(){
-				var num = $(this).index() + 1;
-				insertedPin += num;
-				counter++;
-				if (counter === 1){
-					$(".dots-pinpad:nth-child(1)").css({
-						"background": elem.data("pin-on-color"),
-						"transition": "all .5s cubic-bezier(0,1,.5,1)",
-						"transform": "scale(1)"
-					});
-				}
-				if (counter === 2){
-					$(".dots-pinpad:nth-child(2)").css({
-						"background": elem.data("pin-on-color"),
-						"transition": "all .5s cubic-bezier(0,1,.5,1)",
-						"transform": "scale(1)"
-					});
-				}
-				if (counter === 3){
-					$(".dots-pinpad:nth-child(3)").css({
-						"background": elem.data("pin-on-color"),
-						"transition": "all .5s cubic-bezier(0,1,.5,1)",
-						"transform": "scale(1)"
-					});
-				}
-				if (counter >= 4){
-					$(".dots-pinpad:nth-child(4)").css({
-						"background": elem.data("pin-on-color"),
-						"transition": "all .5s cubic-bezier(0,1,.5,1)",
-						"transform": "scale(1)"
-					});
+            $(".number-pinpad").on("click", function(){
+            	var num = $(this).index() + 1
+            	insertedPin += num;
+            	counter++;
+            	$(".dots-pinpad:nth-child("+ counter +")").css({
+					"background": elem.data("pin-on-color"),
+					"transition": "all .5s cubic-bezier(0,1,.5,1)",
+					"transform": "scale(1)"
+				});
+				if (counter === elem.getReading("get-pin").val.length){
 					if(insertedPin === elem.getReading("get-pin").val) {
 						falseCounter = 0;
 						ftui.setFhemStatus("set "+ elem.data("device") +" "+ elem.data("set") +" off");
@@ -209,8 +199,9 @@ var Modul_pinpad = function(){
 							"transform": "scale(.7)"
 						});
 					}, 500);
+
 				}
-			});
+            });
         });
 	}
 	function update(dev, par) {
